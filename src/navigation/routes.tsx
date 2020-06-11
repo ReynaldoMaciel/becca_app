@@ -31,6 +31,7 @@ const Routes = () => {
     <NavigationContainer>
       {user.token ? (
         <Drawer.Navigator
+          openByDefault={false}
           screenOptions={{unmountOnBlur: true}}
           drawerContent={(props) => <DrawerMenu {...props} />}>
           <Drawer.Screen name="Home" component={Home} />
