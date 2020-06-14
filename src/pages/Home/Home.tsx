@@ -1,46 +1,89 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, Text } from 'react-native';
 import Voice from '@react-native-community/voice';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Tts from 'react-native-tts';
+import getHours from 'date-fns/getHours';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ImageBackground, NativeScrollEvent, NativeSyntheticEvent, Text, View, TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import { useSafeArea } from 'react-native-safe-area-context';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import colors from '../../constants/colors';
+import images from '../../constants/images';
+import ModalMenu from './ModalMenu/ModalMenu';
+import styles from './styles';
+import beccaService from '../../services/beccaService';
+import { setUser } from '../../store/user/actions';
 
 interface HomeProps {}
 
 const Home = (props: HomeProps) => {
-  const [text, setText] = useState('')
+  const { bottom } = useSafeArea()
+  const [userAudio, setUserAudio] = useState('')
+  const [beccaText, setBeccaText] = useState('')
+  const [showMenu, setShowMenu] = useState(false)
+  const [isDay, setIsDay] = useState(false)
+  const [isTalking, setIsTalking] = useState(false)
 
-  const onSpeechResults = useCallback((event) => {
-    setText(event.value.join(', '))
-  }, [])
+  const onSpeechResults = (event: any) => {
+    setUserAudio(event.value.join(' '))
+  }
 
-  const speechText = (value: string) => {
-    Tts.getInitStatus().then(() => {
-      Tts.setDefaultLanguage('pt-BR');
-      Tts.speak(value);
-    });
+  const toggleTalking = async () => {
+    if (isTalking) {
+      Voice.stop()
+      setIsTalking(false)
+      console.log(userAudio)
+      const response = await beccaService.ask({message: userAudio})
+      beccaService.speech(response.text)
+      setBeccaText(response.text)
+    } else {
+      setIsTalking(true)
+      setUserAudio('')
+      Voice.start('pt-BR')
+    }
   }
 
   useEffect(() => {
-    // Voice.isAvailable().then(response =>{
-    //   console.log(response)
-    // })
+    const hours = getHours(new Date())
+    setIsDay(hours <= 18 && hours >= 6)
     Voice.onSpeechResults = onSpeechResults
-    Voice.start('pt-BR')
-    setTimeout(() => {
-      Voice.stop()
-      speechText('Quem vai ganhar o Hack CCR é nóis!')
-    }, 5000)
     return () => {
       Voice.removeAllListeners()
     }
   }, [])
 
   return (
-    <ScrollView>
-      <SafeAreaView>
-      <Text style={{fontSize: 30}}>{text}</Text>
-      </SafeAreaView>
-    </ScrollView>
+    <>
+      <ImageBackground resizeMode="cover" source={isDay ? images.backgroundDay : images.backgroundNight} style={styles.backgroundImage} progressiveRenderingEnabled>
+        <ModalMenu onPressDismiss={() => setShowMenu(false)} showMenu={showMenu} />
+        <FastImage resizeMode="contain" source={isDay ? images.assistantDay : images.assistantNight} style={styles.assistant}/>
+        <View style={styles.boxTalk}>
+          <Text style={styles.title}>
+            Oi, Adriano!
+          </Text>
+          <Text style={styles.subTitle}>
+            Estou aqui, pode falar o que deseja{'\n'}
+            {/* Pressione uma vez para falar e pressione novamente quando terminar */}
+          </Text>
+          {/* <Text>{userAudio}</Text>
+          <Text>{beccaText}</Text> */}
+          <View style={styles.boxButtons}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.sideButton}>
+              <FontAwesome name="qrcode" color={colors.white} size={30}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={toggleTalking} activeOpacity={0.8} style={styles.imageIcon}>
+              <FontAwesome name="microphone" color={colors.red} size={50}/>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.8} style={styles.sideButton}>
+              <FontAwesome name="heartbeat" color={colors.white} size={30}/>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={() => setShowMenu(true)} style={{ ...styles.buttonShowMore, paddingBottom: bottom }}>
+            <Ionicons name="ios-arrow-up" color={colors.white} size={50}/>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </>
   );
 };
 

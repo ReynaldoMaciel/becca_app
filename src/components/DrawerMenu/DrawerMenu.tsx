@@ -25,7 +25,7 @@ const DrawerMenu = (props: DrawerContentComponentProps) => {
         <FontAwesome name="user-circle-o" size={140} color={colors.black} />
       </TouchableWithoutFeedback>
       <DrawerMenuItem text="Home" onPress={() => navigation.navigate('Home')} />
-      <DrawerMenuItem
+      {/* <DrawerMenuItem
         text="Finalizar cadastro"
         onPress={() => navigation.navigate('FinishRegisterStackScreen')}
       />
@@ -36,7 +36,7 @@ const DrawerMenu = (props: DrawerContentComponentProps) => {
       <DrawerMenuItem
         text="Notificações"
         onPress={() => navigation.navigate('NotificationsStackScreen')}
-      />
+      /> */}
       <DrawerMenuItem text="Sair" onPress={logout} />
     </DrawerContentScrollView>
   );

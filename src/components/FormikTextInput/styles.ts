@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     marginBottom: 4,
   },
+  label: {
+    fontSize: 18,
+    marginBottom: 8,
+    color: colors.gray[1]
+  },
   errorText: {
     fontSize: 12,
     color: 'red',

@@ -1,21 +1,28 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../constants/colors';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { deviceWidth } from '../../constants/device';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.dark,
   },
+  congratulations: {
+    width: deviceWidth - 40,
+    height: 350
+  },
   title: {
     fontWeight: 'bold',
     color: colors.red,
-    fontSize: 32
+    fontSize: 32,
+    marginBottom: 8,
   },
   subtitle: {
     fontWeight: '300',
     fontSize: 18,
-    color: colors.white
+    color: colors.white,
+    marginBottom: 8,
   },
   image: {
     height: 150,

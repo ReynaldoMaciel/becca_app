@@ -7,9 +7,9 @@ import DrawerMenu from '../components/DrawerMenu/DrawerMenu';
 import {RootState} from '../store';
 import {UserState} from '../store/user/types';
 import Login from '../pages/Login/Login';
-import ForgotPassword from '../pages/ForgotPassword/ForgotPassword';
 import Register from '../pages/Register/Register';
 import Home from '../pages/Home/Home';
+import AuthSuccess from '../pages/AuthSuccess/AuthSucess';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +39,7 @@ const Routes = () => {
       ) : (
         <LoginStack.Navigator headerMode="none">
           <LoginStack.Screen name="Login" component={Login} />
-          <LoginStack.Screen name="Register" component={Register} />
+          <LoginStack.Screen name="AuthSuccess" component={AuthSuccess} />
         </LoginStack.Navigator>
       )}
     </NavigationContainer>

@@ -1,16 +1,13 @@
 const images = {
-  logo: require('../assets/images/logo.png'),
-  logoIcon: require('../assets/images/logo_icon.png'),
-  logoInverted: require('../assets/images/logo_inverted.png'),
-  checklist2: require('../assets/images/checklist2.png'),
-  backgroundPeople: require('../assets/images/background_people.png'),
-  registerSuccess: require('../assets/images/register_success.png'),
-  resume: require('../assets/images/resume.png'),
-  checklist: require('../assets/images/checklist.png'),
-  charts: require('../assets/images/charts.png'),
-  paper: require('../assets/images/paper.png'),
-  newspaper: require('../assets/images/newspaper.png'),
-  handBook: require('../assets/images/hand_book.png'),
+  sun: require('../assets/images/sun.png'),
+  moon: require('../assets/images/moon.png'),
+  whiteCloud: require('../assets/images/white_cloud1.png'),
+  assistantDay: require('../assets/images/assistant_day.png'),
+  assistantNight: require('../assets/images/assistant_night.png'),
+  congratulations: require('../assets/images/congratulations.png'),
+  backgroundDay: require('../assets/images/background_day.png'),
+  backgroundNight: require('../assets/images/background_night.png'),
+  microphoneIcon: require('../assets/images/microphoneIcon.png')
 };
 
 export default images;

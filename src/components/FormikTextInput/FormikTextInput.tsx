@@ -37,7 +37,7 @@ const FormikTextInput = ({
 }: FormikTextInputProps & InjectedFormikProps<any, any>) => {
   return (
     <>
-      <Text>{label}</Text>
+      <Text style={styles.label}>{label}</Text>
       {maskType ? (
         <TextInputMask
           editable={canEdit}

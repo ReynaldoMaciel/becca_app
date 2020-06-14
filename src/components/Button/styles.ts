@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   text: {
-    color: colors.white,
+    color: colors.red,
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',

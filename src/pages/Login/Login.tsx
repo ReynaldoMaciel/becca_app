@@ -18,14 +18,13 @@ import { setUser } from '../../store/user/actions';
 import styles from './styles';
 import openMap from '../../utils/openMap';
 import ModalError from '../../components/ModalError/ModalError';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ButtonOutline from '../../components/ButtonOutline/ButtonOutline';
 interface LoginProps {}
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().required('O campo acima é obrigatório'),
+  tel: Yup.string().required('O campo acima é obrigatório'),
   // .email('Insira um e-mail válido'),
-  password: Yup.string()
-    .required('O campo acima é obrigatório')
-    .min(6, 'Senha muito curta'),
 });
 
 const Login = (props: LoginProps) => {
@@ -35,16 +34,10 @@ const Login = (props: LoginProps) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (values: { email: string; password: string }) => {
+  const onSubmit = async (values: { tel: string }) => {
     try {
       setLoading(true);
-      dispatch(
-        setUser({
-          refreshToken: '',
-          token: 'asdasdfad',
-          userId: 'asdf'
-        }),
-      );
+      navigation.dispatch(StackActions.push('AuthSuccess', { user: { token: 'TOKEN DA API AQUI' }}))
     } catch (error) {
       setShowModalError(true);
       setMessageError(error.message || 'Erro ao realizar login');
@@ -60,56 +53,40 @@ const Login = (props: LoginProps) => {
         title="Erro"
         visible={showModalError}
       />
-      {navigation.canGoBack() && (
-        <TouchableWithoutFeedback
-          style={styles.backButton}
-          onPress={navigation.goBack}>
-          <AntDesign name="arrowleft" size={28} color={colors.primary} />
-        </TouchableWithoutFeedback>
-      )}
       <View style={styles.boxCenter}>
-        <FastImage
-          source={images.logoIcon}
-          style={styles.image}
-          resizeMode="contain"
-        />
         <View style={styles.boxLogin}>
+  <Text style={styles.title}>Olá, vamos {'\n'}começar?</Text>
+        <Text style={styles.subtitle}>Digite o telefone usado para falar com a Becca</Text>
           <Formik
             initialValues={{
-              email: 'admin@email.com',
-              password: 'Trocar@123',
+              tel: '',
             }}
             validationSchema={LoginSchema}
             onSubmit={onSubmit}>
             {(formikProps) => (
               <>
                 <FormikTextInput
+                  maskType={'cel-phone'}
+                  maskOptions={{
+                    maskType: 'BRL',
+                    withDDD: true,
+                    dddMask: '(99) '
+                  }}              
                   textInputProps={{
-                    placeholder: 'Email',
+                    placeholder: 'Digite aqui seu telefone',
                   }}
                   {...formikProps}
-                  field="email"
+                  field="tel"
                 />
-                <FormikTextInput
-                  textInputProps={{
-                    placeholder: 'Senha',
-                    secureTextEntry: true,
-                  }}
-                  {...formikProps}
-                  field="password"
-                />
-                <Button
+                <ButtonOutline
                   onPress={formikProps.handleSubmit}
-                  text="Entrar"
-                  bgColor={colors.primary}
+                  text="Avançar"
+                  color={colors.yellow}
                 />
               </>
             )}
           </Formik>
         </View>
-        <Link style={styles.linkRegister} to="/Register">
-          <Text style={styles.textLinkRegister}>Crie sua conta</Text>
-        </Link>
       </View>
       <Loading loading={loading} text="Autenticando usuário" />
     </View>
