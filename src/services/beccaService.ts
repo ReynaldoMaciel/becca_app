@@ -89,12 +89,12 @@ export const ask = async ({
   } else if (message === 'Dois dias') {
     return {
       type: 0,
-      text: 'Você é forte, mas vou te indicar um remédio: Tylenol. Se a dor continuar procure um médico. Posso usar seu GPS?',
+      text: 'Estacione o caminhão no local mais próximo permitido. Descanse por 15 minutos. Se a dor continuar procure uma emergência. Vou te enviar pelo Whatsapp a localização de um posto mais próximo. Posso usar seu GPS?',
     }
   } else if (message === 'Pode sim') {
     return {
       type: 0,
-      text: 'Você está próximo a unidade de saúde da CCR. Vou te enviar a localização, vale a pena ir lá, quem sabe você não ganha uma massagem.',
+      text: 'Acabei de te enviar a localização. Se precisar de mais alguma coisa pode falar',
     }
   }
 
